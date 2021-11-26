@@ -475,6 +475,8 @@ void CLMiner::enumDevices(std::map<string, DeviceDescriptor>& _DevicesCollection
             platformType = ClPlatformTypeEnum::Clover;
         else if (platformName == "NVIDIA CUDA")
             platformType = ClPlatformTypeEnum::Nvidia;
+        else if (platformName.find("Intel") != string::npos)
+            platformType = ClPlatformTypeEnum::Intel;
         else
         {
             std::cerr << "Unrecognized platform " << platformName << std::endl;
@@ -528,6 +530,13 @@ void CLMiner::enumDevices(std::map<string, DeviceDescriptor>& _DevicesCollection
                       << (unsigned int)(t[22]) << "." << (unsigned int)(t[23]);
                     uniqueId = s.str();
                 }
+            }
+            else if (clDeviceType == DeviceTypeEnum::Gpu && platformType == ClPlatformTypeEnum::Intel)
+            {
+                std::ostringstream s;
+                s << "Intel GPU " << pIdx << "." << dIdx;
+                uniqueId = s.str();
+
             }
             else if (clDeviceType == DeviceTypeEnum::Cpu)
             {
@@ -644,6 +653,13 @@ bool CLMiner::initDevice()
         m_hwmoninfo.devicePciId = m_deviceDescriptor.uniqueId;
         m_hwmoninfo.deviceIndex = -1;  // Will be later on mapped by nvml (see Farm() constructor)
     }
+    else if (m_deviceDescriptor.clPlatformType == ClPlatformTypeEnum::Intel)
+    {
+        m_hwmoninfo.deviceType = HwMonitorInfoType::UNKNOWN;
+        m_hwmoninfo.devicePciId = m_deviceDescriptor.uniqueId;
+        m_hwmoninfo.deviceIndex = -1;  // Will be later on mapped by nvml (see Farm() constructor)
+    }
+
     else
     {
         // Don't know what to do with this
@@ -670,7 +686,7 @@ bool CLMiner::initDevice()
     }
 
     ostringstream s;
-    s << "Using PciId : " << m_deviceDescriptor.uniqueId << " " << m_deviceDescriptor.clName;
+    s << "Using Device : " << m_deviceDescriptor.uniqueId << " " << m_deviceDescriptor.clName;
 
     if (!m_deviceDescriptor.clNvCompute.empty())
         s << " (Compute " + m_deviceDescriptor.clNvCompute + ")";
