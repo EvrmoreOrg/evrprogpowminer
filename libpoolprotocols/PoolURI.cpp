@@ -1,18 +1,18 @@
 /*
-    This file is part of firominer.
+    This file is part of ethminer.
 
-    firominer is free software: you can redistribute it and/or modify
+    ethminer is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    firominer is distributed in the hope that it will be useful,
+    ethminer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with firominer.  If not, see <http://www.gnu.org/licenses/>.
+    along with ethminer.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include <algorithm>
@@ -36,7 +36,7 @@ struct SchemeAttributes
 static std::map<std::string, SchemeAttributes> s_schemes = {
     /*
     This schemes are kept for backwards compatibility.
-    firominer do perform stratum autodetection
+    evrprogpowminer do perform stratum autodetection
     */
     {"stratum+tcp", {ProtocolFamily::STRATUM, SecureLevel::NONE, 0}},
     {"stratum1+tcp", {ProtocolFamily::STRATUM, SecureLevel::NONE, 1}},

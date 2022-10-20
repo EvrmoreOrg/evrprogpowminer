@@ -1,12 +1,50 @@
-# firominer (ethminer fork with ProgPoW implementation)
+# evrprogpowminer (ethminer fork with ProgPoW implementation)
 
-> firopow miner with OpenCL, CUDA and stratum support
+Evrprogpowminer is a fork of Ravencoin's [kawpowminer ](https://github.com/RavenCommunity/kawpowminer). Like kawpowminer, it is a derivative of Ethash enhanced with [Programmable Proof of Work](https://github.com/ifdefelse/progpow) for ASIC and FPGA resistance.
 
-**firominer** is an ProgPoW GPU mining worker: with firominer you can mine Firo, which relies on an ProgPoW-based Proof of Work thus including Ethereum ProgPoW and others. This is the actively maintained version of firominer. It originates from the [ethminer](https://github.com/ethereum-mining/ethminer) project. Check the original [ProgPoW](https://github.com/ifdefelse/progpow) implementation and [EIP-1057](https://eips.ethereum.org/EIPS/eip-1057) for specification.
+Compared to kawpowminer, evrprogpowminer has the following differences:
+* Starting DAG size at block #1 is 3GigaBytes
+* EPOCH duration is 12000 blocks
+* evrprogpowminer supports direct solo mining to evrmored/evrmore-qt without needing a stratum proxy
+* the random starting seeds are slightly different for uniqueness
+* improved detection of nVidia GPU memory size
+
+AMD GPU cards are not currently properly supported. We hope to fix that in a future release.
+
+You do not need this software for Evrmore testnet. Testnet uses sha256 cpu mining (use the "setgenerate on" command in your node)
+Evrprogpowminer is for use only on Evrmore mainnet. 
+
+====
+
+A typical use of evrprogpowminer with a pool might look like:
+    evrprogpowminer.exe -U -P stratum+tcp://ESDwJs2FX5zYoVnLQ7YuLZhmnsAcpKqMiq.worker@minersite.com:minerport
+
+A typical use of evrprogpowminer with a local stratum solo-mining proxy might look like:
+    evrprogpowminer.exe -U -P stratum+tcp://ESDwJs2FX5zYoVnLQ7YuLZhmnsAcpKqMiq.worker@127.0.0.1:3333
+
+A typical use of evrprogpowminer to solo mine direct to evrmored/evrmore-qt might look like:
+    evrprogpowminer.exe -U -P http://mynodeusername:mynodepassword@127.0.0.1:8819 (specify miningaddress="youraddress" in evrmore.conf)
+
+====
+
+Remember that you need to have CUDA installed on your system in order for evrprogpowminer to work. Get it from nVidia.
+
+Also, if you are solo mining direct to evrmored or evrmore-qt, before launching evrprogpowminer, make sure that:
+    * the node is fully syncd
+    * the node is listening on the RPC port (8819 for mainnet)
+    * the node has miningaddress="youraddress" set in the evrmore.conf file
+    * the node has rpcuser and rpcpassword set in the evrmore.conf file.
+
+
+===============
+
+> evrprogpowpow miner with OpenCL, CUDA and stratum support
+
+**evrprogpowminer** is an ProgPoW GPU mining worker: with evrprogpowminer you can mine Evrmore, which relies on an ProgPoW-based Proof of Work thus including Ethereum ProgPoW and others. This is the actively maintained version of evrprogpowminer. It originates from the [ethminer](https://github.com/ethereum-mining/ethminer) project. Check the original [ProgPoW](https://github.com/ifdefelse/progpow) implementation and [EIP-1057](https://eips.ethereum.org/EIPS/eip-1057) for specification.
 
 ## Features
 
-* First commercial ProgPOW Firo miner software for miners.
+* First commercial ProgPOW Evrmore miner software for miners.
 * OpenCL mining
 * Nvidia CUDA mining
 * realistic benchmarking against arbitrary epoch/DAG/blocknumber
@@ -36,41 +74,41 @@
 Standalone **executables** for *Linux*, *macOS* and *Windows* are provided in
 the [Releases] section.
 Download an archive for your operating system and unpack the content to a place
-accessible from command line. The firominer is ready to go.
+accessible from command line. The evrprogpowminer is ready to go.
 
 | Builds | Release |
 | ------ | ------- |
-| Last   | [GitHub release](https://github.com/firoorg/firominer/releases) 
+| Last   | [GitHub release](https://github.com/evrprogpoworg/evrprogpowminer/releases) 
 
 
 If you have trouble with missing .dll or CUDA errors, [please install the latest version of CUDA drivers](https://developer.nvidia.com/cuda-downloads) or report to project maintainers.
 
 ## Usage
 
-The **firominer** is a command line program. This means you launch it either
+The **evrprogpowminer** is a command line program. This means you launch it either
 from a Windows command prompt or Linux console, or create shortcuts to
 predefined command lines using a Linux Bash script or Windows batch/cmd file.
 For a full list of available command, please run:
 
 ```sh
-firominer --help
+evrprogpowminer --help
 ```
 
 ### Examples connecting to pools
 
 Connecting to [MinerMore Testnet](https://minermore.com):
 
-`./firominer -P stratum+tcp://<wallet>.worker@rvnt.minermore.com:4505` or
+`./evrprogpowminer -P stratum+tcp://<wallet>.worker@rvnt.minermore.com:4505` or
 
-`firominer.exe -P stratum+tcp://<wallet>.worker@rvnt.minermore.com:4505`
+`evrprogpowminer.exe -P stratum+tcp://<wallet>.worker@rvnt.minermore.com:4505`
 
 ## Build
 
-After cloning this repository into `firominer`, it can be built with commands like:
+After cloning this repository into `evrprogpowminer`, it can be built with commands like:
 
 ### Ubuntu / OSX
 ```
-cd firominer
+cd evrprogpowminer
 git submodule update --init --recursive
 mkdir build
 cd build
@@ -91,7 +129,7 @@ Open "Developer Command Prompt for VS 2019"
 1. Open StartMenu and search for "Developer Command Prompt for VS 2019"
 2. Follow these steps:
 ```
-cd C:\Users\USER_NAME\PATH_TO_FIROMINER\firominer
+cd C:\Users\USER_NAME\PATH_TO_EVRPROGPOWMINER\evrprogpowminer
 git submodule update --init --recursive
 mkdir build
 cd build
@@ -118,11 +156,11 @@ ProgPoW can be tuned using the following parameters.  The proposed settings have
 * `PROGPOW_CNT_CACHE`: The number of cache accesses per loop
 * `PROGPOW_CNT_MATH`: The number of math operations per loop
 
-The value of these parameters has been tweaked to use 0.9.4 specs with a PROGPOW_PEROD of 1 to fit Firo's blocktimes.  See [this medium post](https://medium.com/@ifdefelse/progpow-progress-da5bb31a651b) for details.
+The value of these parameters has been tweaked to use 0.9.4 specs with a PROGPOW_PEROD of 3 to fit Evrmore's blocktimes.  See [this medium post](https://medium.com/@ifdefelse/progpow-progress-da5bb31a651b) for details.
 
 | Parameter             | 0.9.2 | 0.9.3 | 0.9.4 |
 |-----------------------|-------|-------|--------|
-| `PROGPOW_PERIOD`      | `50`  | `10`  |  `1`   |
+| `PROGPOW_PERIOD`      | `50`  | `10`  |  `3`   |
 | `PROGPOW_LANES`       | `16`  | `16`  |  `16`  |
 | `PROGPOW_REGS`        | `32`  | `32`  |  `32`  |
 | `PROGPOW_DAG_LOADS`   | `4`   | `4`   |  `4`   |
@@ -131,18 +169,19 @@ The value of these parameters has been tweaked to use 0.9.4 specs with a PROGPOW
 | `PROGPOW_CNT_CACHE`   | `12`  | `11`  | `11`  |
 | `PROGPOW_CNT_MATH`    | `20`  | `18`  | `18`  |
 
-Epoch length = 1300 blocks
+Epoch length = 12000 blocks
 
 ## Maintainers & Authors
 
 [![Discord](https://img.shields.io/badge/discord-join%20chat-blue.svg)](https://discord.gg/uvyuqWm)
 
-The list of current and past maintainers, authors and contributors to the firominer project.
+The list of current and past maintainers, authors and contributors to the evrprogpowminer project.
 Ordered alphabetically. [Contributors statistics since 2015-08-20].
 
 | Name                  | Contact                                                      |     |
 | --------------------- | ------------------------------------------------------------ | --- |
-| Jeremy Anderson       | [@Blondfrogs](https://github.com/Blondfrogs)     | --- |
+| Hans Schmidt          | [@hans-schmidt](https://github.com/hans-schmidt)             | --- |
+| Jeremy Anderson       | [@Blondfrogs](https://github.com/Blondfrogs)                 | --- |
 | Traysi                | [@traysi](https://github.com/traysi)                         | --  |
 | Andrea Lanfranchi     | [@AndreaLanfranchi](https://github.com/AndreaLanfranchi)     | ETH: 0xa7e593bde6b5900262cf94e4d75fb040f7ff4727 |
 | EoD                   | [@EoD](https://github.com/EoD)                               |     |
@@ -180,15 +219,15 @@ The new WDDM 2.x driver on Windows 10 uses a different way of addressing the GPU
 
 ### Why is a GTX 1080 slower than a GTX 1070?
 
-Because of the GDDR5X memory, which can't be fully utilized for FIRO mining (yet).
+Because of the GDDR5X memory, which can't be fully utilized for Evrmore mining (yet).
 
 ### Are AMD cards also affected by slowdowns with increasing DAG size?
 
 Only GCN 1.0 GPUs (78x0, 79x0, 270, 280), but in a different way. You'll see that on each new epoch (30K blocks), the hashrate will go down a little bit.
 
-### Can I still mine FIRO with my 2GB GPU?
+### Can I still mine Evrmore with my 2GB GPU?
 
-Not really, your VRAM must be above the DAG size (Currently about 4 GB.) to get best performance. Without it severe hash loss will occur.
+Not really, your VRAM must be above the DAG size (Currently about 3 GB.) to get best performance. Without it severe hash loss will occur.
 
 ### What are the optimal launch parameters?
 
@@ -198,7 +237,7 @@ The default parameters are fine in most scenario's (CUDA). For OpenCL it varies 
 
 [@davilizh](https://github.com/davilizh) made improvements to the CUDA kernel hashing process and added this flag to allow changing the number of tasks it runs in parallel. These improvements were optimised for GTX 1060 GPUs which saw a large increase in hashrate, GTX 1070 and GTX 1080/Ti GPUs saw some, but less, improvement. The default value is 4 (which does not need to be set with the flag) and in most cases this will provide the best performance.
 
-### What is firominer's relationship with [Genoil's fork]?
+### What is evrprogpowminer's relationship with [Genoil's fork]?
 
 [Genoil's fork] was the original source of this version, but as Genoil is no longer consistently maintaining that fork it became almost impossible for developers to get new code merged there. In the interests of progressing development without waiting for reviews this fork should be considered the active one and Genoil's as legacy code.
 
@@ -219,11 +258,11 @@ This can be done with one of the 2 ways:
 
 * Linux:
     * Adapt the `/etc/environment` file and add a line `CUDA_DEVICE_ORDER=PCI_BUS_ID`
-    * Adapt your start script launching firominer and add a line `export CUDA_DEVICE_ORDER=PCI_BUS_ID`
+    * Adapt your start script launching evrprogpowminer and add a line `export CUDA_DEVICE_ORDER=PCI_BUS_ID`
 
 * Windows:
     * Adapt your environment using the control panel (just search `setting environment windows control panel` using your favorite search engine)
-    * Adapt your start (.bat) file launching firominer and add a line `set CUDA_DEVICE_ORDER=PCI_BUS_ID` or `setx CUDA_DEVICE_ORDER PCI_BUS_ID`. For more info about `set` see [here](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/set_1), for more info about `setx` see [here](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/setx)
+    * Adapt your start (.bat) file launching evrprogpowminer and add a line `set CUDA_DEVICE_ORDER=PCI_BUS_ID` or `setx CUDA_DEVICE_ORDER PCI_BUS_ID`. For more info about `set` see [here](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/set_1), for more info about `setx` see [here](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/setx)
 
 ### nvrtc64_102_0.dll not found...
 
@@ -238,6 +277,6 @@ You have to upgrade your Nvidia drivers. Install cuda 10.2.
 
 [Amazon S3 is needed]: https://docs.travis-ci.com/user/uploading-artifacts/
 [cpp-ethereum]: https://github.com/ethereum/cpp-ethereum
-[Contributors statistics since 2015-08-20]: https://github.com/firoorg/firominer/graphs/contributors?from=2015-08-20
+[Contributors statistics since 2015-08-20]: https://github.com/evrprogpoworg/evrprogpowminer/graphs/contributors?from=2015-08-20
 [Genoil's fork]: https://github.com/Genoil/cpp-ethereum
-[Releases]: https://github.com/firoorg/firominer/releases
+[Releases]: https://github.com/evrprogpoworg/evrprogpowminer/releases

@@ -102,7 +102,7 @@ sudo apt-get install mesa-common-dev libglu1-mesa-dev freeglut3-dev
 
 Complete sample Windows batch file - **adapt it to your system**. Assumes that:
 
-* it's placed one folder up from the firominer source folder
+* it's placed one folder up from the evrprogpowminer source folder
 * you have CMake installed
 * you have Perl installed
 
@@ -117,8 +117,8 @@ rem add Perl in PATH; it's needed for OpenSSL build
 set "PERL_PATH=C:\Perl\perl\bin"
 set "PATH=%PERL_PATH%;%PATH%"
 
-rem switch to firominer's source folder
-cd "%~dp0\firominer\"
+rem switch to evrprogpowminer's source folder
+cd "%~dp0\evrprogpowminer\"
 
 if not exist "build\" mkdir "build\"
 

@@ -20,8 +20,8 @@ HunterGate(
 )
 
 
-project(firominer)
-set(PROJECT_VERSION 1.2.4)
+project(evrprogpowminer)
+set(PROJECT_VERSION 1.3.0)
 
 
 option(ETHASHCL "Build with OpenCL mining" ON)
@@ -103,7 +103,7 @@ if (APICORE)
 	add_subdirectory(libapicore)
 endif()
 
-add_subdirectory(firominer)
+add_subdirectory(evrprogpowminer)
 
 
 if(WIN32)

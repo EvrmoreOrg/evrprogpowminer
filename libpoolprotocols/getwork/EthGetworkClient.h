@@ -19,7 +19,8 @@ using namespace eth;
 class EthGetworkClient : public PoolClient
 {
 public:
-    EthGetworkClient(int worktimeout, unsigned farmRecheckPeriod, const std::string &rewardAddress);
+//    EthGetworkClient(int worktimeout, unsigned farmRecheckPeriod, const std::string &rewardAddress);
+    EthGetworkClient(int worktimeout, unsigned farmRecheckPeriod);
     ~EthGetworkClient();
 
     void connect() override;
@@ -69,5 +70,5 @@ private:
 
     unsigned m_solution_submitted_max_id;  // maximum json id we used to send a solution
 
-    std::string m_base64_auth{};  // Used by firo for http authentication;
+    std::string m_base64_auth{};  // Used by evrprogpow for http authentication;
 };

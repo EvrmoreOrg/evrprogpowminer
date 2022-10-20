@@ -1,4 +1,4 @@
-#include <firominer/buildinfo.h>
+#include <evrprogpowminer/buildinfo.h>
 #include <libdevcore/Log.h>
 #include <libpoolprotocols/stratum/arith_uint256.h>
 #include <libcrypto/ethash.hpp>
@@ -541,7 +541,7 @@ void EthStratumClient::connect_handler(const boost::system::error_code& ec)
 #endif
                 cwarn << "* Double check hostname in the -P argument.";
                 cwarn << "* Disable certificate verification all-together via environment "
-                         "variable. See firominer --help for info about environment variables";
+                         "variable. See evrprogpowminer --help for info about environment variables";
                 cwarn << "If you do the latter please be advised you might expose yourself to the "
                          "risk of seeing your shares stolen";
             }
@@ -600,8 +600,8 @@ void EthStratumClient::connect_handler(const boost::system::error_code& ec)
     case EthStratumClient::STRATUM:
 
         jReq["jsonrpc"] = "2.0";
-        jReq["params"].append(std::string(firominer_get_buildinfo()->project_name) + "/" +
-                              std::string(firominer_get_buildinfo()->project_version));
+        jReq["params"].append(std::string(evrprogpowminer_get_buildinfo()->project_name) + "/" +
+                              std::string(evrprogpowminer_get_buildinfo()->project_version));
 
         break;
 
@@ -618,7 +618,7 @@ void EthStratumClient::connect_handler(const boost::system::error_code& ec)
 
     case EthStratumClient::ETHEREUMSTRATUM:
 
-        jReq["params"].append(firominer_get_buildinfo()->project_name_with_version);
+        jReq["params"].append(evrprogpowminer_get_buildinfo()->project_name_with_version);
         jReq["params"].append("EthereumStratum/1.0.0");
 
         break;
@@ -627,7 +627,7 @@ void EthStratumClient::connect_handler(const boost::system::error_code& ec)
 
         jReq["method"] = "mining.hello";
         Json::Value jPrm;
-        jPrm["agent"] = firominer_get_buildinfo()->project_name_with_version;
+        jPrm["agent"] = evrprogpowminer_get_buildinfo()->project_name_with_version;
         jPrm["host"] = m_conn->Host();
         jPrm["port"] = toCompactHex((uint32_t)m_conn->Port(), HexPrefix::DontAdd);
         jPrm["proto"] = "EthereumStratum/2.0.0";
@@ -797,7 +797,7 @@ void EthStratumClient::processResponse(Json::Value& responseObject)
         (_isNotification && (responseObject["params"].empty() && responseObject["result"].empty())))
     {
         cwarn << "Pool sent an invalid jsonrpc message...";
-        cwarn << "Do not blame firominer for this. Ask pool devs to honor http://www.jsonrpc.org/ "
+        cwarn << "Do not blame evrprogpowminer for this. Ask pool devs to honor http://www.jsonrpc.org/ "
                  "specifications ";
         cwarn << "Disconnecting...";
         m_io_service.post(m_io_strand.wrap(boost::bind(&EthStratumClient::disconnect, this)));
@@ -1589,7 +1589,7 @@ void EthStratumClient::processResponse(Json::Value& responseObject)
         else if (_method == "client.get_version")
         {
             jReq["id"] = _id;
-            jReq["result"] = firominer_get_buildinfo()->project_name_with_version;
+            jReq["result"] = evrprogpowminer_get_buildinfo()->project_name_with_version;
 
             if (_rpcVer == 1)
             {
